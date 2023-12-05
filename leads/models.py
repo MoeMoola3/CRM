@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-class User(AbstractUser):
+class User(AbstractUser):   #Creating our own UserModel, inheriting from abstract user
     pass
 
 class Agent(models.Model):
@@ -11,12 +11,16 @@ class Agent(models.Model):
 
     def __str__(self):
         return self.user.email
+    """
+    If its not shown as a string it will output the object.
+    Agent: Agent object (1)
+    """
 
 class Lead(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     age = models.IntegerField(default=0)
-    agent = models.ForeignKey(Agent, on_delete=models.CASCADE)
+    agent = models.ForeignKey(Agent, on_delete=models.CASCADE) #When an agent is deleted, all leads associated with the agent are also deleted
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

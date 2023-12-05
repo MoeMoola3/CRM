@@ -20,3 +20,10 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+"""
+Instructions to start app(windows):
+- env\Scripts\activate
+- python manage.py runserver
+
+"""
