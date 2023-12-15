@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -38,6 +39,15 @@ class LeadCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse("leads:lead-list")
+    
+    def form_valid(self, form):
+        send_mail(
+            subject="A lead has been created",
+            message="Go see new lead",
+            from_email="test@test.com",
+            recipient_list=["test@test.com"]
+        )
+        return super().form_valid(form)
 
 
 
