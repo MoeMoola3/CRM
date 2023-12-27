@@ -31,9 +31,9 @@ class LeadListView(LoginRequiredMixin, generic.ListView):
         if user.is_organiser:
             queryset = Lead.objects.filter(organisation=user.userprofile)
         else:
-            queryset = Lead.objects.filter(organisation=user.organisation)
-        
-        queryset = queryset.filter(agent__user=user)
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            #Filter for agent that is logged in
+            queryset = queryset.filter(agent__user=user)
         return queryset                                                                                               
 
 
@@ -43,13 +43,14 @@ class LeadDetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_queryset(self):
         user = self.request.user
+        #Initial queryset of leads for the entire organisation
         if user.is_organiser:
             queryset = Lead.objects.filter(organisation=user.userprofile)
         else:
-            queryset = Lead.objects.filter(organisation=user.organisation)
-        
-        queryset = queryset.filter(agent__user=user)
-        return queryset  
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            #Filter for agent that is logged in
+            queryset = queryset.filter(agent__user=user)
+        return queryset    
 
 
 
